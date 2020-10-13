@@ -1,0 +1,257 @@
+@repair{
+WriteNew to RTS - Inform LCD = "Iniciate repiaring protocol..."
+FontColor of RTS - Inform LCD = RepairLight
+Color of RTS - Indicator Light = RepairLight
+Intensity of RTS - Indicator Light = 4
+Radius of RTS - Indicator Light = 4
+ if OnOff of RTS - Merge Block = On
+  {
+   WriteLine to RTS - Inform LCD = "Retracting turrets for repair..."
+   WriteLine to RTS - Inform LCD = "Dectivate Automatic Turret Control."
+   OnOff of RTS - Sliding Door = On
+   Open of RTS - Sliding Door = True
+   OnOff of RTS - Merge Block = Off
+   delay 1000
+    WriteLine to RTS - Inform LCD = "Move to the retraction position."
+    Velocity of RTS - Advanced Rotor Azimuth = 0
+    Velocity of RTS Neck - Hinge 3x3 Elevation = 0
+    delay 200
+    LowerLimit of RTS - Advanced Rotor Azimuth = 0
+    Velocity of RTS - Advanced Rotor Azimuth = -12
+    LowerLimit of RTS Neck - Hinge 3x3 Elevation = 0
+    Velocity of RTS Neck - Hinge 3x3 Elevation = -6
+    delay 10000
+    UpperLimit of RTS - Advanced Rotor Azimuth = 0
+    LowerLimit of RTS Neck - Hinge 3x3 Elevation = 0
+    delay 200
+    Velocity of  RTS - Advanced Rotor Azimuth = 5
+    delay 1000
+    Velocity of  RTS - Advanced Rotor Azimuth = -1
+    delay 1750
+    Velocity of RTS 1 Advanced Rotor Azimuth = 0
+   RotorLock of RTS - Advanced Rotor Azimuth = True
+   RotorLock of RTS Neck - Hinge 3x3 Elevation = True
+   ShareInertiaTensor of RTS - Piston = True
+   OnOff of RTS - Timer RTS Head Projector Integrity check = On
+   OnOff of RTS Head - Timer Integrity check = On
+   OnOff of RTS Neck - Timer Integrity check = On
+    delay 500
+	WriteLine to RTS - Inform LCD = "Retracting turrets..."
+    LowerLimit of RTS - Piston = 0
+    Velocity of RTS - Piston = -2
+    delay 8000
+    Open of RTS - Sliding Door = False
+    Detect Subgrids of RTS - Sensor RTS Head Integrity check = false
+    delay 3000
+    Detect Subgrids of RTS - Sensor RTS Head Integrity check = true
+    OnOff of RTS - Sliding Door = Off
+    OnOff of RTS - Welder = Off
+    WriteLine to RTS - Inform LCD = "Turrets Retracted"
+    OnOff of RTS - Indicator Light Remember = Off
+   }
+ OnOff of RTS - Welder = On
+ OnOff of RTS - Timer RTS Head Projector Integrity check = On
+ WriteLine to RTS - Inform LCD = "Enable integrity checking system."
+ WriteLine to RTS - Inform LCD = "Start repairing..."
+ OnOff of RTS Head - Timer Integrity check = On
+ OnOff of RTS Neck - Timer Integrity check = On
+ OnOff of RTS - Rotor (Part2 mover) = On
+ OnOff of RTS Part2 - Timer Merge OFF (RTS Head) = On
+ OnOff of RTS Part2 - Timer Merge OFF (RTS Neck) = On
+ OnOff of RTS - Indicator Light Head Integrity check = Off
+ delay 3000
+ if OnOff of RTS - Indicator Light Head Integrity check = Off
+  {
+   WriteLine to RTS - Inform LCD = "Serious damage detected!"
+   WriteLine to RTS - Inform LCD = "Initiate turret rebuild protocol..."
+   OnOff of RTS - Timer RTS Head Projector Integrity check = Off
+   OnOff of RTS - Welder = Off
+   OnOff of RTS Head - Merge Block = Off
+   OnOff of RTS Neck - Merge Block = Off
+   OnOff of RTS Part2 - Merge (RTS Head) = Off
+   OnOff of RTS Part2 - Merge (RTS Neck) = Off
+   Blink Interval of RTS - Indicator Light = 1
+   Blink Lenght of RTS - Indicator Light = 50
+   delay 1500
+   OnOff of RTS - Rotor (Part2 mover) = On
+   RotorLock of RTS - Rotor (Part2 mover) = False
+   WriteLine to RTS - Inform LCD = "Moving repair arm to position."
+   LowerLimit of RTS - Rotor (Part2 mover) = 40
+   Velocity of RTS - Rotor (Part2 mover) = -6
+   delay 2000
+   OnOff of RTS - Timer RTS Head Projector Integrity check = On
+   OnOff of RTS Part2 - Projector (RTS Neck) = On
+   delay 2000
+   if OnOff of RTS - Indicator Light Neck Integrity check = On
+   {
+    if OnOff of RTS Part2 - Projector (RTS Neck) = On
+   {
+    OnOff of RTS - Timer RTS Head Projector Integrity check = Off
+    WriteLine to RTS - Inform LCD = "Found a non-repairable Turret Neck"
+    Velocity of RTS - Rotor (Part2 mover) = 6
+    WriteLine to RTS - Inform LCD = "Eject all Turrets to avoid further damage"
+    OnOff of RTS - Sliding Door = On
+    WriteLine to RTS - Inform LCD = "Open Sliding Doors."
+    Open of RTS - Sliding Door = True
+    delay 3000
+    Velocity of RTS - Piston = 5
+    UpperLimit of RTS - Piston = 9.84
+    delay 1700
+    Detach RTS - Advanced Rotor Azimuth
+    Velocity of RTS - Piston = -2
+    delay 7000
+    WriteLine to RTS - Inform LCD = "Ejection completed"
+    Open of RTS - Sliding Door = False
+    Velocity of RTS - Rotor (Part2 mover) = -6
+    delay 3000
+    OnOff of RTS - Timer RTS Head Projector Integrity check = On
+	OnOff of RTS Part2 - Projector (RTS Neck) = On
+    delay 2000
+   }
+   }
+   LowerLimit of RTS - Rotor (Part2 mover) = 0
+   OnOff of RTS - Welder = On
+   WriteLine to RTS - Inform LCD = "Create new Turret Necks..."
+   OnOff of RTS Neck - Merge Block = On
+   delay 3000
+   Velocity of RTS - Rotor (Part2 mover) = 0
+   OnOff of RTS Part2 - Merge (RTS Neck) = On
+   delay 10000
+   Attach RTS - Advanced Rotor Azimuth
+   OnOff of RTS - Welder = Off
+   OnOff of RTS Neck - Hinge 3x3 Elevation = On
+   delay 2000
+   Attach RTS - Advanced Rotor Azimuth
+   UpperLimit of RTS Neck - Hinge 3x3 Elevation = 1
+   LowerLimit of RTS Neck - Hinge 3x3 Elevation = -45
+   Velocity of RTS Neck - Hinge 3x3 Elevation = -20
+   OnOff of RTS - Grinder (3x3 Hinge Head) = On
+   delay 1000
+   Attach RTS - Advanced Rotor Azimuth
+   delay 1000
+   OnOff of RTS Neck - Merge Block = Off
+   OnOff of RTS Part2 - Merge (RTS Neck) = Off
+   OnOff of RTS Part2 - Projector (RTS Neck) = Off
+   UpperLimit of RTS - Rotor (Part2 mover) = 42
+   Velocity of RTS - Rotor (Part2 mover) = 6
+   OnOff of RTS Part2 - Projector (RTS Head) = On
+   delay 3000
+   OnOff of RTS Part2 - Merge (RTS Head) = On
+   delay 3000
+   OnOff of RTS Head - Merge Block = On
+   delay 2000
+   OnOff of RTS - Grinder (3x3 Hinge Head) = Off
+   OnOff of RTS - Welder = On
+   Velocity of RTS Neck - Hinge 3x3 Elevation = 20
+   WriteLine to RTS - Inform LCD = "Create new Turret Heads..."
+   delay 10000
+   Velocity of RTS Neck - Hinge 3x3 Elevation = 0
+   UpperLimit of RTS Neck - Hinge 3x3 Elevation = 5
+   LowerLimit of RTS Neck - Hinge 3x3 Elevation = -5
+   Velocity of RTS - Rotor (Part2 mover) = -6
+   delay 2000
+   Attach RTS Neck - Hinge 3x3 Elevation
+   delay 2000
+   Attach RTS Neck - Hinge 3x3 Elevation
+   delay 2000
+   Attach RTS Neck - Hinge 3x3 Elevation
+   delay 500
+   OnOff of RTS - Timer RTS Head Projector Integrity check = Off
+   OnOff of RTS Part2 - Projector (RTS Head) = Off
+   delay 2000
+   OnOff of RTS - Rotor (Part2 mover) = On
+   RotorLock of RTS - Rotor (Part2 mover) = False
+   OnOff of RTS Head - Merge Block = Off
+   OnOff of RTS Part2 - Merge (RTS Head) = Off
+   delay 500
+   Velocity of RTS - Rotor (Part2 mover) = 12
+   UpperLimit of RTS - Rotor (Part2 mover) = 50
+   delay 3000
+   RotorLock of RTS - Rotor (Part2 mover) = True
+   OnOff of RTS - Timer RTS Head Projector Integrity check = On
+  }
+  else
+  {
+	delay 8000
+  }
+    WriteLine to RTS - Inform LCD = "Repair program completed"
+ If OnOff of RTS - Indicator Light Remember = Off
+  {
+	WriteLine to RTS - Inform LCD = "Iniciate extending protocol..."
+    OnOff of RTS - Welder = On
+    OnOff of RTS - Timer RTS Head Projector Integrity check = Off
+    OnOff of RTS Head - Timer Integrity check = Off
+    OnOff of RTS Neck - Timer Integrity check = Off
+    OnOff of RTS Head - Merge Block = Off
+    OnOff of RTS Neck - Merge Block = Off
+    OnOff of RTS Part2 - Timer Merge OFF (RTS Head) = Off
+    OnOff of RTS Part2 - Timer Merge OFF (RTS Neck) = Off
+    delay 200
+    OnOff of RTS - Rotor (Part2 mover)  = On
+    UpperLimit of RTS - Rotor (Part2 mover) = 50
+    Velocity of RTS - Rotor (Part2 mover) = 3
+    OnOff of RTS - Sliding Door = On
+    WriteLine to RTS - Inform LCD = "Open Sliding Doors"
+    Open of RTS - Sliding Door = True
+    ShareInertiaTensor of RTS - Piston = False
+    delay 2000
+    WriteLine to RTS - Inform LCD = "Extending turrets..."
+    UpperLimit of RTS - Piston = 9.84
+    Velocity of RTS - Piston = 2
+    delay 7000
+    RotorLock of RTS - Rotor (Part2 mover) = True
+    OnOff of RTS Neck - Hinge 3x3 Elevation = On
+    OnOff of RTS - Advanced Rotor Azimuth = On
+    RotorLock of RTS - Advanced Rotor Azimuth = False
+    RotorLock of RTS Neck - Hinge 3x3 Elevation = False
+    delay 200
+    WriteLine to RTS - Inform LCD = "Increase Turret Heads range of motion."
+    UpperLimit of RTS Neck - Hinge 3x3 Elevation = 5
+    LowerLimit of RTS Neck - Hinge 3x3 Elevation = -5
+    UpperLimit of RTS - Advanced Rotor Azimuth = 0
+    LowerLimit of RTS - Advanced Rotor Azimuth = 0
+    Velocity of RTS - Advanced Rotor Azimuth = 0
+    Velocity of RTS Neck - Hinge 3x3 Elevation = 0
+    delay 200
+    UpperLimit of RTS Neck - Hinge 3x3 Elevation = 10
+    LowerLimit of RTS Neck - Hinge 3x3 Elevation = -10
+    Velocity of RTS Neck - Hinge 3x3 Elevation = 3
+    UpperLimit of RTS - Advanced Rotor Azimuth = 10
+    LowerLimit of RTS - Advanced Rotor Azimuth = -10
+    delay 200
+    UpperLimit of RTS Neck - Hinge 3x3 Elevation = 40
+    UpperLimit of RTS - Advanced Rotor Azimuth = 50
+    LowerLimit of RTS - Advanced Rotor Azimuth = -50
+    delay 500
+    UpperLimit of RTS Neck - Hinge 3x3 Elevation = 90
+    UpperLimit of RTS - Advanced Rotor Azimuth = 360
+    LowerLimit of RTS - Advanced Rotor Azimuth = -360
+    delay 1000
+    UpperLimit of RTS - Advanced Rotor Azimuth = 361
+    LowerLimit of RTS - Advanced Rotor Azimuth = -361
+    LowerLimit of RTS Neck - Hinge 3x3 Elevation = 0
+    Velocity of RTS Neck - Hinge 3x3 Elevation = 0
+    WriteLine to RTS - Inform LCD = "Reactivate Automatic Turret Control."
+    OnOff of RTS - Merge Block = On
+    delay 1000
+    WriteLine to RTS - Inform LCD = "Turrets Extended"
+    FontColor of RTS - Inform LCD = ExtendedLight
+    Color of RTS - Indicator Light = ExtendedLight
+    Intensity of RTS - Indicator Light = 5
+    Radius of RTS - Indicator Light = 7
+    OnOff of RTS - Sliding Door = Off
+    OnOff of RTS - Indicator Light Remember = Off
+    Blink Interval of RTS - Indicator Light = 0
+    Blink Lenght of RTS - Indicator Light = 50
+  }
+  else
+  {
+    WriteLine to RTS - Inform LCD = "All turrets are ready for extend."
+	  FontColor of RTS - Inform LCD = RetractedLight
+    Color of RTS - Indicator Light = RetractedLight
+    Intensity of RTS - Indicator Light = 3
+    Radius of RTS - Indicator Light = 4
+    Blink Interval of RTS - Indicator Light = 0
+    Blink Lenght of RTS - Indicator Light = 50
+  }
+}
