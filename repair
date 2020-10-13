@@ -1,3 +1,12 @@
+@Variables{
+//You can choose the the color of RTS - Indicator lights:
+RetractedLight = 100:255:100 //Green (When retracted)
+ExtendedLight = 255:0:0 //Strong red (When extended)
+ActionLight = 255:200:100 //Orange (During the extending and retracting)
+RepairLight = 255:0:255 //Purple (During the repair program)
+natGrav = Natural Gravity Magnitude of RTS - Gravity Detector Cockpit
+}
+
 @repair{
 WriteNew to RTS - Inform LCD = "Iniciate repiaring protocol..."
 FontColor of RTS - Inform LCD = RepairLight
