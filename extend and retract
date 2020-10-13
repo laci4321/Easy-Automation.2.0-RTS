@@ -1,0 +1,152 @@
+@Variables{
+//You can choose the the color of RTS - Indicator lights:
+RetractedLight = 100:255:100 //Green (When retracted)
+ExtendedLight = 255:0:0 //Strong red (When extended)
+ActionLight = 255:200:100 //Orange (During the extending and retracting)
+RepairLight = 255:0:255 //Purple (During the repair program)
+natGrav = Natural Gravity Magnitude of RTS - Gravity Detector Cockpit
+}
+
+@extend{
+if OnOff of RTS - Merge Block = Off
+ {
+  WriteNew to RTS - Inform LCD = "Iniciate extending protocol..."
+  FontColor of RTS - Inform LCD = ActionLight
+  Color of RTS - Indicator Light = ActionLight
+  Intensity of RTS - Indicator Light = 4
+  Radius of RTS - Indicator Light = 4
+  OnOff of RTS - Welder = On
+  OnOff of RTS - Timer RTS Head Projector Integrity check = Off
+  OnOff of RTS Head - Timer Integrity check = Off
+  OnOff of RTS Neck - Timer Integrity check = Off
+  OnOff of RTS Head - Merge Block = Off
+  OnOff of RTS Neck - Merge Block = Off
+  OnOff of RTS Part2 - Timer Merge OFF (RTS Head) = Off
+  OnOff of RTS Part2 - Timer Merge OFF (RTS Neck) = Off
+  delay 200
+  OnOff of RTS - Rotor (Part2 mover)  = On
+  UpperLimit of RTS - Rotor (Part2 mover) = 50
+  Velocity of RTS - Rotor (Part2 mover) = 3
+  OnOff of RTS - Sliding Door = On
+  WriteLine to RTS - Inform LCD = "Open Sliding Doors."
+  Open of RTS - Sliding Door = True
+  ShareInertiaTensor of RTS - Piston = False
+  delay 2000
+  WriteLine to RTS - Inform LCD = "Extending turrets..."
+  UpperLimit of RTS - Piston = 9.84
+  Velocity of RTS - Piston = 2
+  delay 7000
+  RotorLock of RTS - Rotor (Part2 mover) = True
+  OnOff of RTS Neck - Hinge 3x3 Elevation = On
+  OnOff of RTS - Advanced Rotor Azimuth = On
+  RotorLock of RTS - Advanced Rotor Azimuth = False
+  RotorLock of RTS Neck - Hinge 3x3 Elevation = False
+  delay 200
+  WriteLine to RTS - Inform LCD = "Increase Turret Heads range of motion."
+  UpperLimit of RTS Neck - Hinge 3x3 Elevation = 5
+  LowerLimit of RTS Neck - Hinge 3x3 Elevation = -5
+  UpperLimit of RTS - Advanced Rotor Azimuth = 0
+  LowerLimit of RTS - Advanced Rotor Azimuth = 0
+  Velocity of RTS - Advanced Rotor Azimuth = 0
+  Velocity of RTS Neck - Hinge 3x3 Elevation = 0
+  delay 200
+  UpperLimit of RTS Neck - Hinge 3x3 Elevation = 10
+  LowerLimit of RTS Neck - Hinge 3x3 Elevation = -10
+  Velocity of RTS Neck - Hinge 3x3 Elevation = 3
+  UpperLimit of RTS - Advanced Rotor Azimuth = 10
+  LowerLimit of RTS - Advanced Rotor Azimuth = -10
+  delay 200
+  UpperLimit of RTS Neck - Hinge 3x3 Elevation = 40
+  UpperLimit of RTS - Advanced Rotor Azimuth = 50
+  LowerLimit of RTS - Advanced Rotor Azimuth = -50
+  delay 500
+  UpperLimit of RTS Neck - Hinge 3x3 Elevation = 90
+  UpperLimit of RTS - Advanced Rotor Azimuth = 360
+  LowerLimit of RTS - Advanced Rotor Azimuth = -360
+  delay 1000
+  UpperLimit of RTS - Advanced Rotor Azimuth = 361
+  LowerLimit of RTS - Advanced Rotor Azimuth = -361
+  LowerLimit of RTS Neck - Hinge 3x3 Elevation = 0
+  Velocity of RTS Neck - Hinge 3x3 Elevation = 0
+  WriteLine to RTS - Inform LCD = "Activate Automatic Turret Control."
+  OnOff of RTS - Merge Block = On
+  delay 1000
+  WriteLine to RTS - Inform LCD = "Turrets Extended"
+  FontColor of RTS - Inform LCD = ExtendedLight
+  Color of RTS - Indicator Light = ExtendedLight
+  Intensity of RTS - Indicator Light = 5
+  Radius of RTS - Indicator Light = 7
+  OnOff of RTS - Sliding Door = Off
+  OnOff of RTS - Indicator Light Remember = Off
+ }
+ else
+ {
+  WriteNew to RTS - Inform LCD = "Turrets are currently extended!"
+  FontColor of RTS - Inform LCD = ExtendedLight
+ }
+} 
+
+
+@retract{
+if OnOff of RTS - Merge Block = On
+ {
+  WriteNew to RTS - Inform LCD = "Iniciate retracting protocol..."
+  FontColor of RTS - Inform LCD = ActionLight
+  OnOff of RTS - Sliding Door = On
+  Open of RTS - Sliding Door = True
+  Color of RTS - Indicator Light = ActionLight
+  Intensity of RTS - Indicator Light = 4
+  Radius of RTS - Indicator Light = 4
+  WriteLine to RTS - Inform LCD = "Dectivate Automatic Turret Control."
+  OnOff of RTS - Merge Block = Off
+  delay 1000
+   WriteLine to RTS - Inform LCD = "Move to the retraction position."
+   Velocity of RTS - Advanced Rotor Azimuth = 0
+   Velocity of RTS Neck - Hinge 3x3 Elevation = 0
+   delay 200
+   LowerLimit of RTS - Advanced Rotor Azimuth = 0
+   Velocity of RTS - Advanced Rotor Azimuth = -12
+   LowerLimit of RTS Neck - Hinge 3x3 Elevation = 0
+   Velocity of RTS Neck - Hinge 3x3 Elevation = -6
+   delay 10000
+   UpperLimit of RTS - Advanced Rotor Azimuth = 0
+   LowerLimit of RTS Neck - Hinge 3x3 Elevation = 0
+   delay 200
+   Velocity of  RTS - Advanced Rotor Azimuth = 5
+   delay 1000
+   Velocity of  RTS - Advanced Rotor Azimuth = -1
+   delay 1750
+   Velocity of RTS 1 Advanced Rotor Azimuth = 0
+  RotorLock of RTS - Advanced Rotor Azimuth = True
+  RotorLock of RTS Neck - Hinge 3x3 Elevation = True
+  ShareInertiaTensor of RTS - Piston = True
+  OnOff of RTS - Timer RTS Head Projector Integrity check = On
+  OnOff of RTS Head - Timer Integrity check = On
+  OnOff of RTS Neck - Timer Integrity check = On
+  OnOff of RTS Part2 - Timer Merge OFF (RTS Head) = On
+  OnOff of RTS Part2 - Timer Merge OFF (RTS Neck) = On
+   delay 500
+   WriteLine to RTS - Inform LCD = "Retracting turrets..."
+   LowerLimit of RTS - Piston = 0
+   Velocity of RTS - Piston = -2
+   delay 8000
+   WriteLine to RTS - Inform LCD = "Close and Lock Sliding Doors..."
+   Open of RTS - Sliding Door = False
+   Detect Subgrids of RTS - Sensor RTS Head Integrity check = false
+   delay 3000
+   Detect Subgrids of RTS - Sensor RTS Head Integrity check = true
+   OnOff of  RTS - Sliding Door = Off
+  WriteLine to RTS - Inform LCD = "Turrets Retracted"
+  FontColor of RTS - Inform LCD = RetractedLight
+  Color of RTS - Indicator Light = RetractedLight
+  Intensity of RTS - Indicator Light = 3
+  Radius of RTS - Indicator Light = 4
+  OnOff of RTS - Welder = Off
+  OnOff of RTS - Indicator Light Remember = On
+  }
+ else
+ {
+  WriteNew to RTS - Inform LCD = "Turrets are currently retracted!"
+  FontColor of RTS - Inform LCD = RetractedLight
+ }
+}
